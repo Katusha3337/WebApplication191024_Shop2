@@ -1,0 +1,31 @@
+﻿@model WebApplication191024_Shop.Models.Order
+
+<h3 class="p-2 bg-primary text-white text-center">Подтверждение заказа</h3>
+<div class="container">
+    <p>Спасибо за ваш заказ, @Model.CustomerName!</p>
+    <p>Ваш заказ был успешно оформлен и будет доставлен по адресу: @Model.Address.</p>
+    <h4>Товары в заказе</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th>Категория</th>
+                <th>Количество</th>
+                <th>Розничная цена</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var line in Model.Lines)
+            {
+                <tr>
+                    <td>@line.Product.Name</td>
+                    <td>@line.Product.Category.Name</td>
+                    <td>@line.Quantity</td>
+                    <td>@line.Product.RetailPrice</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+

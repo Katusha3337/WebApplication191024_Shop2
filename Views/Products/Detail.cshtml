@@ -1,0 +1,21 @@
+﻿@model Product
+
+<h3 class="p-2 bg-primary text-white text-center">Детали товара</h3>
+<div class="container">
+    <div class="row p-2">
+        <div class="col-2 fw-bold">Название:</div>
+        <div class="col-10">@Model.Name</div>
+    </div>
+    <div class="row p-2">
+        <div class="col-2 fw-bold">Категория:</div>
+        <div class="col-10">@Model.Category.Name</div>
+    </div>
+    <div class="row p-2">
+        <div class="col-2 fw-bold">Закупочная цена:</div>
+        <div class="col-10">@Model.PurchasePrice</div>
+    </div>
+    <div class="row p-2">
+        <div class="col-2 fw-bold">Розничная цена:</div>
+        <div class="col-10">@Model.RetailPrice</div>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Category>
+
+<div class="row">
+    <div class="col-1 fw-bold">Id</div>
+    <div class="col fw-bold">Название</div>
+    <div class="col fw-bold">Описание</div>
+</div>
+
+@{
+    int i = 0;
+}
+
+<form asp-action="UpdateAllCategories" method="post">
+    @foreach (Category c in Model)
+    {
+        <div class="row">
+            <div class="col-1">
+                @c.Id
+                <input type="hidden" name="categories[@i].Id" value="@c.Id" />
+            </div>
+            <div class="col">
+                @c.Name
+                <input class="form-control" name="categories[@i].Name" value="@c.Name" />
+            </div>
+            <div class="col">
+                @c.Description
+                <input class="form-control" name="categories[@i].Description" value="@c.Description" />
+            </div>
+        </div>
+        i++;
+    }
+    <div class="form-group text-center">
+        <button class="btn btn-primary" type="submit">Сохранить</button>
+        <a asp-action="Index" class="btn btn-secondary">Отмена</a>
+    </div>
+</form>
+
+
+

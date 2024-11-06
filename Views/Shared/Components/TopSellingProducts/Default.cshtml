@@ -1,0 +1,12 @@
+﻿@model IEnumerable<Product>
+
+<h3>Топ-10 товаров по продажам</h3>
+<ul class="list-group">
+    @foreach (var product in Model)
+    {
+        <li class="list-group-item">
+            <strong>@product.Name</strong> - Количество заказов: @product.OrderLines.Sum(ol => ol.Quantity)
+        </li>
+    }
+</ul>
+

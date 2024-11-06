@@ -1,0 +1,69 @@
+﻿@using WebApplication191024_Shop.Models.Pages
+@model PagedList<Product>
+
+<h3 class="p-2 bg-primary text-white text-center">Товары</h3>
+<div class="container">
+    <form method="get" class="mb-3">
+        <div class="row">
+            <div class="col">
+                <label for="searchTerm">Поиск</label>
+                <input id="searchTerm" type="text" class="form-control" placeholder="Поиск...">
+            </div>
+            <div class="col">
+                <label for="sortOrder">Сортировка</label>
+                <select id="sortOrder" class="form-control">
+                    <option value="product-name">Название</option>
+                    <option value="product-category">Категория</option>
+                    <option value="product-purchaseprice">Закупочная цена</option>
+                    <option value="product-retailprice">Розничная цена</option>
+                </select>
+            </div>
+        </div>
+    </form>
+    <div class="product-container">
+        @foreach (var product in Model)
+        {
+            <div class="row product-row">
+                <div class="col-2 product-name">@product.Name</div>
+                <div class="col-2 product-category">@product.Category.Name</div>
+                <div class="col-2 product-purchaseprice">@product.PurchasePrice</div>
+                <div class="col-2 product-retailprice">@product.RetailPrice</div>
+                <div class="col-2">
+                    <form asp-action="AddToCart" method="post" class="d-inline">
+                        <input type="hidden" name="productId" value="@product.Id" />
+                        <button type="submit" class="btn btn-outline-primary">Добавить в корзину</button>
+                    </form>
+                    <a asp-action="Detail" asp-route-id="@product.Id" class="btn btn-outline-secondary">Детально</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+    document.getElementById('searchTerm').addEventListener('input', function() {
+        const term = this.value.toLowerCase();
+        const rows = document.querySelectorAll('.product-row');
+        rows.forEach(row => {
+            const name = row.querySelector('.product-name').textContent.toLowerCase();
+            const category = row.querySelector('.product-category').textContent.toLowerCase();
+            if (name.includes(term) || category.includes(term)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+
+    document.getElementById('sortOrder').addEventListener('change', function() {
+        const rows = Array.from(document.querySelectorAll('.product-row'));
+        const order = this.value;
+        rows.sort((a, b) => {
+            const aValue = a.querySelector(`.${order}`).textContent;
+            const bValue = b.querySelector(`.${order}`).textContent;
+            return aValue.localeCompare(bValue);
+        });
+        const container = document.querySelector('.product-container');
+        rows.forEach(row => container.appendChild(row));
+    });
+</script>

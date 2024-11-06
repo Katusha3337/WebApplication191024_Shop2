@@ -1,0 +1,67 @@
+﻿@model IEnumerable<Product>
+
+<div class="row">
+    <div class="col-1 fw-bold">Id</div>
+    <div class="col fw-bold">Название</div>
+    <div class="col fw-bold">Категория</div>
+    <div class="col fw-bold">Закупочная цена</div>
+    <div class="col fw-bold">Розничная цена</div>
+    <div class="col fw-bold">Количество</div>
+</div>
+
+@{
+    int i = 0;
+}
+
+<form asp-action="UpdateAllProducts" method="post">
+    @foreach (Product p in Model)
+    {
+        <div class="row">
+            <div class="col-1">
+                @p.Id
+                <input type="hidden" name="products[@i].Id" value="@p.Id" />
+            </div>
+            <div class="col">
+                @p.Name
+                <input class="form-control" name="products[@i].Name" value="@p.Name" />
+            </div>
+            <div class="col">
+                @p.Category.Name
+                @{
+                    var options = new List<string>();
+                    foreach (var category in ViewBag.Categories)
+                    {
+                        var selected = category.Id == p.CategoryId ? "selected" : "";
+                        options.Add($"<option value=\"{category.Id}\" {selected}>{category.Name}</option>");
+                    }
+                }
+                <select class="form-control" name="products[@i].CategoryId">
+                    @Html.Raw(string.Join(" ", options))
+                </select>
+            </div>
+            <div class="col">
+                @p.PurchasePrice
+                <input class="form-control" name="products[@i].PurchasePrice" value="@p.PurchasePrice" />
+            </div>
+            <div class="col">
+                @p.RetailPrice
+                <input class="form-control" name="products[@i].RetailPrice" value="@p.RetailPrice" />
+            </div>
+            <div class="col">
+                @p.Quantity
+                <input class="form-control" name="products[@i].Quantity" value="@p.Quantity" />
+            </div>
+        </div>
+        i++;
+    }
+    <div class="form-group text-center">
+        <button class="btn btn-primary" type="submit">Сохранить</button>
+        <a asp-action="Index" class="btn btn-secondary">Отмена</a>
+    </div>
+</form>
+
+
+
+
+
+

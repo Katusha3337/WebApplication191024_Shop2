@@ -1,0 +1,70 @@
+﻿@model WebApplication191024_Shop.Models.OrderViewModel
+
+<h3 class="p-2 bg-primary text-white text-center">Оформление заказа</h3>
+<div class="container">
+    <form asp-action="Checkout" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="CustomerName">Имя покупателя</label>
+                <input type="text" id="CustomerName" name="CustomerName" class="form-control" required value="@Model.CustomerName" />
+                <span asp-validation-for="CustomerName" class="text-danger"></span>
+            </div>
+            <div class="col-12">
+                <label for="Address">Адрес доставки</label>
+                <input type="text" id="Address" name="Address" class="form-control" required value="@Model.Address" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="col-12">
+                <label for="State">Штат</label>
+                <input type="text" id="State" name="State" class="form-control" required value="@Model.State" />
+                <span asp-validation-for="State" class="text-danger"></span>
+            </div>
+            <div class="col-12">
+                <label for="ZipCode">Почтовый индекс</label>
+                <input type="text" id="ZipCode" name="ZipCode" class="form-control" required value="@Model.ZipCode" />
+                <span asp-validation-for="ZipCode" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <h4>Товары в заказе</h4>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Название</th>
+                            <th>Количество</th>
+                            <th>Цена</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (var i = 0; i < Model.CartItems.Count; i++)
+                        {
+                            <tr>
+                                <td>@Model.CartItems[i].ProductName</td>
+                                <td>@Model.CartItems[i].Quantity</td>
+                                <td>@Model.CartItems[i].Price</td>
+                                <input type="hidden" asp-for="CartItems[i].ProductId" />
+                                <input type="hidden" asp-for="CartItems[i].ProductName" />
+                                <input type="hidden" asp-for="CartItems[i].Quantity" />
+                                <input type="hidden" asp-for="CartItems[i].Price" />
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Оформить заказ</button>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+
+
+
+
